@@ -28,6 +28,17 @@ Project "web_svr"
 	
     
  
+Project "lib"
+	IncludeFile { 
+		"../external/",
+	}
+
+	SrcPath { 
+		"../external/svr_util/include/**",  
+		"../external/libevent_cpp/include/**",  
+	}
+
+	
 
 
 
