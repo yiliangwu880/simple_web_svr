@@ -7,7 +7,7 @@ void Svr::RevRequest()
 {
 	string str;
 	GetData(str);
-	L_INFO("rev req: %s , path=%s", str.c_str(), GetPath());
+	L_INFO("rev req: %s , path=%s", str.c_str(), GetPath().c_str());
 	ParsePostPara(str);
 	AddHeader("Content-Type", "text/html");
 	AddHeader("charset", "utf-8");
