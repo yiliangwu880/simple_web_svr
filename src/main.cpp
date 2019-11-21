@@ -4,11 +4,14 @@
 #include "libevent_cpp/include/http.h"
 #include <signal.h>
 #include "cfg.h"
+#include "svr.h"
 
 
 using namespace su;
 using namespace lc;
 using namespace std;
+
+
 
 
 class MyLcLog : public lc::ILogPrinter, public Singleton<MyLcLog>
@@ -56,6 +59,7 @@ void BaseApp::Start(int argc, char* argv[], const string &app_name, bool is_daem
 		return;
 	}
 
+	L_INFO("runing %d", CfgMgr::Obj().port);
 	EventMgr::Obj().Dispatch();
 	L_INFO("main end");
 }
@@ -74,14 +78,12 @@ void BaseApp::OnExitProccess()
 
 class MyApp: public BaseApp
 {
+	Svr m_svr;
 public:
 	virtual bool OnStart() override
 	{
-		if (CfgMgr::Obj().Init())
-		{
-			return false;
-		}
 		L_INFO("web svr addr:%s %d", CfgMgr::Obj().ip.c_str(), CfgMgr::Obj().port);
+		L_COND_F(m_svr.Init(nullptr, CfgMgr::Obj().port));
 		return true;
 	}
 

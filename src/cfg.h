@@ -4,8 +4,10 @@
 
 #include "svr_util/include/read_cfg.h"
 #include "svr_util/include/su_include.h"
+#include "svr_util/include/string_tool.h"
 #include "log_def.h"
 #include "libevent_cpp/include/http.h"
+#include <memory>
 
 class CfgMgr : public Singleton<CfgMgr>
 {

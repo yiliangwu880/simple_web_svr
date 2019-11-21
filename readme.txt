@@ -16,5 +16,5 @@ vs浏览代码：
 	执行.\vs\run.bat,生成sln文件
 
 	
-
+使用方法： 在函数 Svr::RevRequest扩展自定义需求即可。
 
