@@ -42,7 +42,7 @@ static const char *P13 = R"(</p>
 参数1:<input type = "text" name = "p1" style="width:545px;height:35px" value=")";
 //显示参数1
 static const char *P2 = R"(">
-<br><br>参数2:<input type = "text" name = "p2" style="width:545px;height:35px" value=")";
+<br><br>参数2:<input type = "text" name = "p2" style="width:545px;height:35px" autofocus value=")";
 //显示参数2
 static const char *P3 = R"(">
 <br><input type = "submit" style="width:100px;height:35px" value = "提交">
@@ -74,6 +74,7 @@ const std::string & Svr::SetHtml(const std::string &v1, const std::string &v2, c
 
 void Svr::ParsePostPara(const std::string &str)
 {
+	m_post.clear();
 	using CHAR_PRT = std::unique_ptr<char, decltype(&::free)>;
 	CHAR_PRT decode_str(evhttp_uridecode(str.c_str(), 1, nullptr), ::free); //自动释放资源
 	L_COND(decode_str.get());
@@ -85,8 +86,7 @@ void Svr::ParsePostPara(const std::string &str)
 		StringTool::split(out[i], '=', out2);
 		if (out2.size() != 2)
 		{
-			L_ERROR("parse error. %s", str.c_str());
-			return;
+			continue;
 		}
 		m_post[out2[0]] = out2[1];
 		//L_DEBUG("post %s %s", out2[0].c_str(), out2[1].c_str());
