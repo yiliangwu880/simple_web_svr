@@ -15,6 +15,7 @@ INCLUDE(cotire)
 INCLUDE_DIRECTORIES(system ./include/)
 INCLUDE_DIRECTORIES(after  ${PROJECT_SOURCE_DIR})
 INCLUDE_DIRECTORIES(after  ./external)
+INCLUDE_DIRECTORIES(after  ./external/libevent_cpp/External/libevent-2.1.8-stable/out/include/)
 
 #运行cmake输出终端消息，调试可以用
 message(PROJECT_SOURCE_DIR_is: ${PROJECT_SOURCE_DIR})
