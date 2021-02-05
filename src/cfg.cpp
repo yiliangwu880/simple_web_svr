@@ -1,4 +1,6 @@
 #include "cfg.h"
+#include "svr.h"
+#include "AppMgr.h"
 
 using namespace su;
 
@@ -9,6 +11,18 @@ bool CfgMgr::Init()
 	cfg.init("cfg.txt");
 	ip = cfg.GetStr("ip");
 	port = (uint16)cfg.GetInt("port");
-	is_daemon = cfg.GetInt("is_daemon");
+	AppMgr::Ins().m_isDaemon = cfg.GetInt("is_daemon");
+
 	return true;
 }
+
+void ON_AE_CFG_INI()
+{
+	if (!CfgMgr::Obj().Init())
+	{
+		printf("read cfg fail!");
+		exit(1);
+		return;
+	}
+}
+STATIC_RUN(RegEvent<AE_CFG_INI>(ON_AE_CFG_INI);)

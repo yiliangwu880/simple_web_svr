@@ -1,7 +1,25 @@
 #include "svr.h"
-
+#include "AppMgr.h"
+#include "static_reg.h"
 
 using namespace su;
+
+namespace{
+void ON_AE_AFTER_NET_INT()
+{
+	SvrMgr::Ins().m_svr = new Svr();
+	L_INFO("web svr addr:%s %d", CfgMgr::Obj().ip.c_str(), CfgMgr::Obj().port);
+	L_COND(SvrMgr::Ins().m_svr->Init(nullptr, CfgMgr::Obj().port));
+}
+STATIC_RUN(RegEvent<AE_AFTER_NET_INT>(ON_AE_AFTER_NET_INT);)
+
+void OnExit()
+{
+	delete SvrMgr::Ins().m_svr; // 在 EventMgr::Ins 前释放
+	SvrMgr::Ins().m_svr = nullptr;
+}
+STATIC_RUN(RegEvent<AE_ON_EXIT>(OnExit);)
+}
 
 void Svr::RevRequest()
 {
@@ -79,11 +97,11 @@ void Svr::ParsePostPara(const std::string &str)
 	CHAR_PRT decode_str(evhttp_uridecode(str.c_str(), 1, nullptr), ::free); //自动释放资源
 	L_COND(decode_str.get());
 	VecStr out;
-	StringTool::split(decode_str.get(), '&', out);
+	StrUtil::split(decode_str.get(), '&', out);
 	for (uint32 i = 0; i < out.size(); ++i)
 	{
 		VecStr out2;
-		StringTool::split(out[i], '=', out2);
+		StrUtil::split(out[i], '=', out2);
 		if (out2.size() != 2)
 		{
 			continue;
