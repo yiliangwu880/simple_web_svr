@@ -18,7 +18,7 @@ bool CfgMgr::Init()
 
 void ON_AE_CFG_INI()
 {
-	if (!CfgMgr::Obj().Init())
+	if (!CfgMgr::Ins().Init())
 	{
 		printf("read cfg fail!");
 		exit(1);

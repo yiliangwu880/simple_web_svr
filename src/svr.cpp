@@ -8,8 +8,8 @@ namespace{
 void ON_AE_AFTER_NET_INT()
 {
 	SvrMgr::Ins().m_svr = new Svr();
-	L_INFO("web svr addr:%s %d", CfgMgr::Obj().ip.c_str(), CfgMgr::Obj().port);
-	L_COND(SvrMgr::Ins().m_svr->Init(nullptr, CfgMgr::Obj().port));
+	L_INFO("web svr addr:%s %d", CfgMgr::Ins().ip.c_str(), CfgMgr::Ins().port);
+	L_COND(SvrMgr::Ins().m_svr->Init(nullptr, CfgMgr::Ins().port));
 }
 STATIC_RUN(RegEvent<AE_AFTER_NET_INT>(ON_AE_AFTER_NET_INT);)
 

@@ -14,7 +14,7 @@ class MyLcLog : public lc::ILogPrinter, public Singleton<MyLcLog>
 public:
 	virtual void Printf(lc::LogLv lv, const char * file, int line, const char *fun, const char * pattern, va_list vp) override
 	{
-		su::LogMgr::Obj().Printf((su::LogLv)lv, file, line, fun, pattern, vp);
+		su::LogMgr::Ins().Printf((su::LogLv)lv, file, line, fun, pattern, vp);
 	}
 };
 
@@ -22,10 +22,10 @@ void AppMgr::Start(int argc, char* argv[])
 {
 	TriggerEvent<AE_CFG_INI>(); //配置初始化
 
-	SingleProgress::Obj().Check(argc, argv, "web_svr", AppMgr::Ins().m_isDaemon); //启动关闭进程管理
-	SuMgr::Obj().Init();
+	SingleProgress::Ins().Check(argc, argv, "web_svr", AppMgr::Ins().m_isDaemon); //启动关闭进程管理
+	SuMgr::Ins().Init();
 
-	EventMgr::Ins().Init(&MyLcLog::Obj());
+	EventMgr::Ins().Init(&MyLcLog::Ins());
 	L_INFO("after EventMgr::Ins().Init ");
 	TriggerEvent<AE_AFTER_NET_INT>();
 	lc::Timer timer; //一个进程只需要一个lc::Timer，其他定时器由  svr_util 驱动
@@ -38,12 +38,12 @@ void AppMgr::Start(int argc, char* argv[])
 
 void AppMgr::OnTimer()
 {
-	if (SingleProgress::Obj().IsExit())
+	if (SingleProgress::Ins().IsExit())
 	{
 		L_INFO("OnExitProccess");
 		EventMgr::Ins().StopDispatch();
 		TriggerEvent<AE_ON_EXIT>();
 		return;
 	}
-	SuMgr::Obj().OnTimer();
+	SuMgr::Ins().OnTimer();
 }
