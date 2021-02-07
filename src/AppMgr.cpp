@@ -17,18 +17,23 @@ public:
 		su::LogMgr::Ins().Printf((su::LogLv)lv, file, line, fun, pattern, vp);
 	}
 };
+void MyPrintf(su::LogLv lv, const char * file, int line, const char *fun, const char * pattern)
+{
+	//su::LogMgr::Ins().Printf((su::LogLv)lv, file, line, fun, pattern);
+}
 
 void AppMgr::Start(int argc, char* argv[])
 {
-	TriggerEvent<AE_CFG_INI>(); //配置初始化
+	FireEvent<AE_CFG_INI>(); //配置初始化
 	SingleProgress::Ins().Check(argc, argv, "web_svr", AppMgr::Ins().m_isDaemon); //启动关闭进程管理
+	lc::LogMgr::Ins().SetLogPrinter(MyLcLog::Ins());
+	//su::LogMgr::Ins().SetLogPrinter(MyPrintf);
 	SuMgr::Ins().Init();
-	EventMgr::Ins().Init(&MyLcLog::Ins());
 	lc::Timer timer; //一个进程只需要一个lc::Timer，其他定时器由  svr_util 驱动
 	auto f = std::bind(&AppMgr::OnTimer, this);
 	timer.StartTimer(30, f, true);
 
-	TriggerEvent<AE_AFTER_NET_INT>();
+	FireEvent<AE_AFTER_NET_INT>();
 	EventMgr::Ins().Dispatch();
 	L_INFO("main end");
 }
@@ -39,7 +44,7 @@ void AppMgr::OnTimer()
 	{
 		L_INFO("OnExitProccess");
 		EventMgr::Ins().StopDispatch();
-		TriggerEvent<AE_ON_EXIT>();
+		FireEvent<AE_ON_EXIT>();
 		return;
 	}
 	SuMgr::Ins().OnTimer();
