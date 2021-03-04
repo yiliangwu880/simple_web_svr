@@ -22,10 +22,10 @@ void MyPrintf(su::LogLv lv, const char * file, int line, const char *fun, const 
 	//su::LogMgr::Ins().Printf((su::LogLv)lv, file, line, fun, pattern);
 }
 
-void AppMgr::Start(int argc, char* argv[])
+void AppMgr::Start(int argc, char* argv[], const string &app_name)
 {
 	FireEvent<AE_CFG_INI>(); //配置初始化
-	SingleProgress::Ins().Check(argc, argv, "web_svr", AppMgr::Ins().m_isDaemon); //启动关闭进程管理
+	SingleProgress::Ins().Check(argc, argv, app_name.c_str(), AppMgr::Ins().m_isDaemon); //启动关闭进程管理
 	lc::LogMgr::Ins().SetLogPrinter(MyLcLog::Ins());
 	//su::LogMgr::Ins().SetLogPrinter(MyPrintf);
 	SuMgr::Ins().Init();

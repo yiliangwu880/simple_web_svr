@@ -14,7 +14,7 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	AppMgr::Ins().Start(argc, argv);
+	AppMgr::Ins().Start(argc, argv, "web_svr");
 	return 0;
 }
 

@@ -33,13 +33,13 @@ namespace su
 
 class AppMgr : public Singleton<AppMgr>
 {
-public:
 	bool m_isDaemon = false;
 
 public:
-	void Start(int argc, char* argv[]);
-	void OnTimer();
+	void Start(int argc, char* argv[], const std::string &app_name);
 
+	void IsDaemon(bool val) { m_isDaemon = val; }
 private:
+	void OnTimer();
 
 };

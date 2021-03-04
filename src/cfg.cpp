@@ -11,7 +11,7 @@ bool CfgMgr::Init()
 	cfg.init("cfg.txt");
 	ip = cfg.GetStr("ip");
 	port = (uint16)cfg.GetInt("port");
-	AppMgr::Ins().m_isDaemon = cfg.GetInt("is_daemon");
+	AppMgr::Ins().IsDaemon(cfg.GetInt("is_daemon"));
 
 	return true;
 }
