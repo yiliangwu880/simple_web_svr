@@ -1,6 +1,9 @@
 /*
+
 	日志宏
+	一些宏过时了，最新参考参考svr_util/src/log_def.h
 	用来做库时，不给用户使用，避免用户也有log_def.h文件，冲突。 用户可以复制这个文件，或者自己定义新的宏来定义新的实现
+	
 */
 #pragma once
 #include <string>
