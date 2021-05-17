@@ -1,5 +1,6 @@
 /*
 典型 svr_util libevent_cpp 基础的app管理 写法
+项目 https://github.com/yiliangwu880/UO.git 也有，以UO项目为准。这里是旧参考
 */
 #pragma once
 #include "game_util/publish_subscribe.h"
